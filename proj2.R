@@ -11,14 +11,16 @@
 
 # Biwei Zhu completed the function Pone
 # Guanhao Su completed the function Pall and the visualization
-# Biwei Zhu and Guanhao Su completed together the example code to assess success probabilities under each strategy
-# Shuying Liu completed the function dloop and the assessment of probability, and modified the whole code. 
+# Biwei Zhu and Guanhao Su completed together the example code to assess 
+# the success probabilities under each strategy
+# Shuying Liu completed the function dloop and the assessment of probability, 
+# and modified the whole code. 
 
 #XXXXXXXXXXXXXXXXXXXXXXXXXXXX Simulation XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 
-# This project aims to estimate the success probability of the prisoner problem by simulations
-# under three strategies:
+# This project aims to estimate the success probability of the prisoner problem 
+# by simulations under three strategies:
 
 # 1. The prisoner first opens the box with their number on it, 
 # reads the number in the box then opens the box with that number,
@@ -40,7 +42,6 @@ sim <- function(n,k,strategy,nprisoner=1,nreps=10000){
   # the total numer of success in nreps simulations
   success <- 0
   
-  # Run nreps simulations
   for (irep in 1:nreps) {
     cards <- sample(2*n)
     # Elements of flag is whether the prisoner succeeds: TRUE if succeeds.
@@ -74,7 +75,8 @@ sim <- function(n,k,strategy,nprisoner=1,nreps=10000){
 
 
 Pone <- function(n,k,strategy,nreps=10000){
-  # Pone estimates the probability of one prisoner succeeding in finding his number in 2*n boxes
+  # Pone estimates the probability of one prisoner succeeding in finding 
+  # his number in 2*n boxes
   # Takes argument: n; k - the prisoner's number; strategy - 1,2,3;
   #                 nreps - number of simulations
   # Returns the estimate probability
@@ -82,7 +84,8 @@ Pone <- function(n,k,strategy,nreps=10000){
 }
 
 Pall <- function(n,strategy,nreps=10000){
-  # Pone estimates the probability of all 2*n prisoners succeeding in finding their number in 2*n boxes
+  # Pall estimates the probability of all 2*n prisoners succeeding in finding 
+  # their number in 2*n boxes
   # Takes argument: n; strategy - 1,2,3; nreps - number of simulations
   # Returns the estimate probability
   k <- 1:(2*n)
@@ -110,21 +113,25 @@ for (strategy in 1:3) cat(sprintf('strategy %d: %f\n',strategy,Pall(50,strategy,
 
 # If we run enough simulations, we can estimate the probability by the relative frequency.
 # The only difference between strategy 2 and strategy 1 is the initial choice of boxes,
-# but strategy 2 (prob = 0.4) will have a lower probability of success for one prisoner than strategies 1 & 3 (prob = 0.5).
+# but strategy 2 (prob = 0.4) will have a lower probability of success for 
+# one prisoner than strategies 1 & 3 (prob = 0.5).
 # The difference of success rate becomes greater as we run simulations on 2*n prisoners,
 # strategy 1 still has a surprisingly stable success rate (Prob = 0.3),
 # while the success rates of strategy 2 & 3 drop to 0.
 
 # Speculation: Strategy 1 works surprisingly well because there is a decent chance that
-# the length of a loop in a 2*n permutation is under n,
-# thus if the prisoner first opens the box with his own number, then he is on the unique loop containing his number,
+# the length of a loop in a 2*n permutation is under n, thus if the prisoner first opens 
+# the box with his own number, then he is on the unique loop containing his number,
 # so he is likely to find his number in the sequence of opening n boxes.
 # Strategy 2 fails because he initially opens a random box, so loop wouldn't help.
+# Obviously, the probability of success for each prisoner in strategy 3 is (1/2),
+# so the whole success probability is power((1/2),(2*n)), which approach 0 when n <- ∞
 
 #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 dloop <- function(n,nreps=10000){
-  # dloop estimates the probability of each loop length from 1 to 2*n ocurring in a random shuffle of 2*n cards
+  # dloop estimates the probability of each loop length from 1 to 2*n ocurring 
+  # in a random shuffle of 2*n cards
   # Take argument: n; nreps - number of simulations
   # Returns a matrix of diminsion (2,2*n), 
   #   the first row being the probability distribution of each loop length, 
@@ -137,9 +144,11 @@ dloop <- function(n,nreps=10000){
   for (irep in 1:nreps){
     # ramdom shuffle of cards
     shuffle <- sample(2*n)
-    # elements of loop_check are whether each loop length ocurrs in shuffle: 1 if occurrs
+    # elements of loop_check are whether each loop length ocurrs in shuffle: 
+    # 1 if occurrs
     loop_check <- array(0,2*n)
-    # elements of unchecked_list are whether indices of shuffle haven't been searched for loop: TRUE if not searched
+    # elements of unchecked_list are whether indices of shuffle 
+    # haven't been searched for loop: TRUE if not searched
     unchecked_list <- array(TRUE,2*n)
     
     # search all loops until all the elements in shuffle have been searched
@@ -168,9 +177,9 @@ dloop <- function(n,nreps=10000){
 # Assess the probability of loop
 y <- dloop(50)
 # The probability of each loop length from 1 to 2n occurring at least once.
-cat('The probability of each loop length is\n',(y[1,]),'\n')
+y[1,]
 # the probability that there is no loop longer than 50 is roughly 0.31
-cat('Probability of longest loop length being 50 is',sum(y[2,1:50]))
+sum(y[2,1:50])
 
 
 #Visualising the probability
@@ -180,13 +189,16 @@ color2 <- c(rep(rgb(250,220,120,150,max = 255),n), rep(rgb(160,150,180,150, max 
 par(mfrow = c(1,3))#three subplot
 
 barplot(y[1,],col = rgb(255,100,100,150,max = 255), space = 0,xaxs="i"
-        , xlab = "Length of the loop", ylab = "Probability")
+        , xlab = "Length of the loop", 
+        ylab = "Probability of each loop length from 1 to 2n occurring at least once")
 axis(1,c(0,50,100))
 
 barplot(c((y[2,1:50]),(y[2,51:100])), space = 0, col = color2, xaxs="i"
-        , xlab = "Length of the longest loop", ylab = "Probability")
+        , xlab = "Length of the longest loop ", 
+        ylab = "Probability of loop length from 1 to 2n")
 axis(1,c(0,50,100))
 
 barplot(c(sum(y[2,1:50]), sum(y[2,51:100])), space = 0, col = color1, xaxs="i"
-        , xlab = "Length of the loop \nlonger than 50 or not", ylab = "Cumulative Probability")
+        , xlab = "Length of the loop \nlonger than 50 or not", 
+        ylab = "Cumulative Probability")
 axis(1,c(0,1,2),c(0,50,100))
