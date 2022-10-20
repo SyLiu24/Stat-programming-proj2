@@ -4,6 +4,16 @@
 # Guanhao Su, s2301705
 # Shuying Liu, s2436365
 
+#XXXXXXXXXXXXXXXXXXXXXXXXXXX Contribution XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+# Biwei Zhu completed the Question 1
+# Guanhao Su completed the Question 2
+# Biwei Zhu and Guanhao Su completed the question 3 and 4 together
+# Shuying Liu completed the Question 5,6 and modified the whole code. 
+
+#XXXXXXXXXXXXXXXXXXXXXXXXXXXX Variables XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+
 # This project aims to calculate the surviving probability of 2n prisoners
 # under three strategies:
 
