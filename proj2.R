@@ -116,8 +116,9 @@ for (strategy in 1:3) cat(sprintf('strategy %d: %f\n',strategy,Pall(50,strategy,
 # When a prisoner is simulated enough times, the prisoner can be successfully released is independent of the number of boxes.
 # Surprisingly, the only difference between the strategy 2 and strategy 1 is the initial choice of boxes,
 # but strategy 2 (prob = 0.4) will have a lower probability of success than strategies 1 & 3 (prob = 0.5).
-# Speculation: If strategy 1 is followed, the box will definitely be opened in this prisoner's own loop.
-# However, strategy 2 is not guaranteed to be in this prisoner's own loop, so the probability will be lower.
+# Speculation: If strategy 1 is chosen, then the number k can be guaranteed to be in the loop.
+# So the prisoner's success depends only on the depth of the loop (Only if depth <= n can be succeed)
+# However, in strategy 2, the prisoner cannot guarantee that his number is in the loop
 
 # For 2*n prisoners
 # As the number of prisoners increases,
