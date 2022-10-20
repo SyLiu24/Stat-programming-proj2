@@ -128,3 +128,40 @@ Pall <- function(n,strategy,nreps){
   cat('the survive probability is:')
   sum(final_success_all)/(nreps)
 }
+
+
+
+# Estimate the individual success probability under n = 5 and n = 50
+print("Individual success probability under the three strategies when n = 5")
+Pone(5,1,1,10000)
+Pone(5,1,2,10000)
+Pone(5,1,3,10000)
+
+print("Individual success probability under the three strategies when n = 50")
+Pone(50,1,1,10000)
+Pone(50,1,2,10000)
+Pone(50,1,3,10000)
+
+# Estimate the joint success probability under n = 5 and n = 50
+print("Joint success probability under the three strategies when n = 5")
+Pall(5,1,10000)
+Pall(5,2,10000)
+Pall(5,3,10000)
+
+print("Joint success probability under the three strategies when n = 50")
+Pall(50,1,10000)
+Pall(50,2,10000)
+Pall(50,3,10000)
+
+#XXXXXXXXXXXXXXXXXXXXXXXXXXXX comments XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+# For one prisoner
+# When a prisoner is simulated enough times, the prisoner can be successfully released is independent of the number of boxes.
+# Surprisingly, the only difference between the strategy 2 and strategy 1 is the initial choice of boxes,
+# but strategy 2 (prob = 0.4) will have a lower probability of success than strategies 1 & 3 (prob = 0.5).
+# Speculation: If strategy 1 is followed, the box will definitely be opened in this prisoner's own loop.
+# However, strategy 2 is not guaranteed to be in this prisoner's own loop, so the probability will be lower.
+
+# For 2*n prisoners
+# As the number of prisoners increases,
+# strategy 1 (Prob = 0.318) is more stable compared to strategies 2,3 (which converge to 0).
+#XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
