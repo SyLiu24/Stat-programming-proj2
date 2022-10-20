@@ -4,6 +4,9 @@
 # Guanhao Su, s2301705
 # Shuying Liu, s2436365
 
+# Github repo: 
+# https://github.com/SyLiu24/proj2
+
 #XXXXXXXXXXXXXXXXXXXXXXXXXXX Contribution XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 # Biwei Zhu completed the function Pone
