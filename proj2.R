@@ -49,16 +49,18 @@ sim <- function(n,k,strategy,nprisoner=1,nreps=10000){
     
     # Check if each prisoner succeeds
     for (prisoner in 1:nprisoner) {
+      # strategy 3
       if (strategy == 3) {
         open_boxes <- sample(2*n,n)
         check_cards <- cards[open_boxes]
         if (k[prisoner] %in% check_cards) flag[prisoner] <- TRUE
       }
       else {
+        # strategy 1 & 2
         # Different initially selected box number for strategy 2 & 3
         if (strategy == 1) selected_box <- k[prisoner]
         else selected_box <- sample(2*n,size=1)
-        
+        # check n boxes
         for (box in 1:n){
           if (cards[selected_box] == k[prisoner]){
             flag[prisoner] <- TRUE
