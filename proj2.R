@@ -123,3 +123,57 @@ for (strategy in 1:3) cat(sprintf('strategy %d: %f\n',strategy,Pall(50,strategy,
 # As the number of prisoners increases,
 # strategy 1 (Prob = 0.318) is more stable compared to strategies 2,3 (which converge to 0).
 #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+dloop <- function(n,nreps=10000){
+  
+  loops <- array(0,2*n)
+  longest_loops <- array(0,2*n)
+  
+  for (irep in 1:nreps){
+    u <- sample(2*n)
+    loop_check <- array(0,2*n)
+    unchecked_list <- array(TRUE,2*n)
+    
+    # search all loops
+    while (length(u[unchecked_list])){
+      start <- u[unchecked_list][1]
+      k <- start
+      unchecked_list[k] <- FALSE
+      loop_len <- 1
+      # find the loop that begins with 'start'
+      while (u[k] != start){
+        k <- u[k]
+        unchecked_list[k] <- FALSE
+        loop_len <- loop_len+1
+      }
+      loop_check[loop_len] <- 1
+      
+    }
+    
+    loops <- loops+loop_check
+    longest_loop <- tail((1:(2*n))[as.logical(loop_check)],1)
+    longest_loops[longest_loop] <- longest_loops[longest_loop]+1
+  }
+  rbind(loops/nreps,longest_loops/nreps)
+}
+y <- dloop(50)
+(y[1,])#print the probability of each loop length from 1 to 2n occuring at least once.
+
+
+#Visualising the probability sensibly.
+n = 50
+color1 <- c(rgb(250,220,120,150,max = 255), rgb(160,150,180,150,max = 255))
+color2 <- c(rep(rgb(250,220,120,150,max = 255),n), rep(rgb(160,150,180,150, max = 255), n))
+par(mfrow = c(1,3))#three subplot
+
+barplot(y[1,],col = rgb(255,100,100,150,max = 255), space = 0,xaxs="i"
+        , xlab = "Length of the loop", ylab = "Probability")
+axis(1,c(0,50,100))
+
+barplot(c(sum(y[2,1:50]), sum(y[2,51:100])), space = 0, col = color1, xaxs="i"
+        , xlab = "Length of the loop \nlonger than 50 or not", ylab = "Cumulative Probability")
+axis(1,c(0,1,2),c(0,50,100))
+
+barplot(c((y[2,1:50]),(y[2,51:100])), space = 0, col = color2, xaxs="i"
+        , xlab = "Length of the longest loop", ylab = "Probability")
+axis(1,c(0,50,100))
