@@ -103,6 +103,7 @@ for (strategy in 1:3) cat(sprintf('strategy %d: %f\n',strategy,Pall(50,strategy,
 
 
 #XXXXXXXXXXXXXXXXXXXXXXXXXXXX comments XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
 # If we run enough simulations, we can estimate the probability by the relative frequency.
 # The only difference between strategy 2 and strategy 1 is the initial choice of boxes,
 # but strategy 2 (prob = 0.4) will have a lower probability of success for one prisoner than strategies 1 & 3 (prob = 0.5).
@@ -119,7 +120,7 @@ for (strategy in 1:3) cat(sprintf('strategy %d: %f\n',strategy,Pall(50,strategy,
 #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 dloop <- function(n,nreps=10000){
-  # dloop estimates the probability of each loop length from 1 to 2*n ocurring in a random 2*n permutation
+  # dloop estimates the probability of each loop length from 1 to 2*n ocurring in a random shuffle of 2*n cards
   # Take argument: n; nreps - number of simulations
   # Returns a matrix of diminsion (2,2*n), 
   #   the first row being the probability distribution of each loop length, 
