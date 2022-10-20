@@ -33,43 +33,53 @@
 # nreps is the number of replicate simulations.
 # success_one is used to count the overall success times.
 
-Pone <- function(n,k,strategy,nreps){
-  success_one <- 0
-  for (j in 1:nreps){
-    box_prison <- sample(1:(2*n),2*n,replace = FALSE)
-    a <- array(0,c(n))
-    #strategy 1
-    if (strategy == 1){
-      a[1] <- box_prison[k]
-      for (i in 2:n){
-        a[i] <- box_prison[a[i-1]]
+sim <- function(n,k,strategy,nprisoner=1,nreps=10000){
+  
+  success <- 0
+  
+  for (irep in 1:nreps) {
+    cards <- sample(2*n)
+    # check_cards <- array(0,n)
+    flag <- array(FALSE,nprisoner)
+    
+    for (prisoner in 1:nprisoner) {
+      if (strategy == 3) {
+        open_boxes <- sample(2*n,n)
+        check_cards <- cards[open_boxes]
+        if (k[prisoner] %in% check_cards) flag[prisoner] <- TRUE
       }
-      if (k %in% a){
-        success_one = success_one + 1
-      }
-    }
-    #strategy 2
-    if (strategy == 2){
-      random_select <- sample(1:(2*n),1,replace = FALSE)
-      a[1] <- box_prison[random_select]
-      for (i in 2:n){
-        a[i] <- box_prison[a[i-1]]
-      }
-      if (k %in% a){
-        success_one = success_one + 1
-      }
-    }
-    #strategy 3
-    if (strategy == 3){
-      n_box <- sample(1:(2*n),n,replace = FALSE)
-      box_prison_new <- box_prison[n_box]
-      if (k %in% box_prison_new){
-        success_one = success_one + 1
+      else {
+        # if (strategy == 1) check_cards[1] <- cards[k[prisoner]]
+        # else check_cards[1] <- cards[sample(2*n,1)]
+        if (strategy == 1) selected_box <- k[prisoner]
+        else selected_box <- sample(2*n,size=1)
+        
+        # for (box in 2:n) check_cards[box] <- cards[check_cards[box-1]]
+        for (box in 1:n){
+          if (cards[selected_box] == k[prisoner]){
+            flag[prisoner] <- TRUE
+            break
+          }
+          selected_box <- cards[selected_box]
+        }
       }
     }
+    success <- success+all(flag)
   }
-  cat('the survive probability is:')
-  success_one/nreps
+  success/nreps
+}
+
+# time <- function(){
+#   start.time <- Sys.time()
+#   sim(50,1:100,1,100)
+#   end.time <- Sys.time()
+#   time.taken <- end.time - start.time
+#   time.taken
+# }
+# time()
+
+Pone <- function(n,k,strategy,nreps=10000){
+  sim(n,k,strategy)
 }
 
 
@@ -79,79 +89,27 @@ Pone <- function(n,k,strategy,nreps){
 # success_all is used to note which prisoner has succeed.
 # final_success_all is used to count if 2n prisoners are released in jth experiment.
 
-Pall <- function(n,strategy,nreps){
-  final_success_all <- array(0,c(nreps))
-  for (j in 1:nreps){
-    a <- array(0,c(n))
-    box_prison <- sample(1:(2*n),2*n,replace = FALSE)
-    success_all <- array(0,c(2*n))
-    if (strategy == 1){
-      for (g in 1:(2*n)){
-        #strategy 1
-        a[1] <- box_prison[g]
-        for (i in 2:n){
-          a[i] <- box_prison[a[i-1]]
-        }
-        if (g %in% a){
-          success_all[g] = 1
-        }
-      }
-    }
-    #strategy 2
-    if (strategy == 2){
-      for (g in 1:(2*n)){
-        random_select <- sample(1:(2*n),1,replace = FALSE)
-        a[1] <- box_prison[random_select]
-        for (i in 2:n){
-          a[i] <- box_prison[a[i-1]]
-        }
-        if (g %in% a){
-          success_all = success_all + 1
-        }
-      }
-    }
-    #strategy 3
-    if (strategy == 3){
-      for (g in 1:(2*n)){
-        n_box <- sample(1:(2*n),n,replace = FALSE)
-        box_prison_new <- box_prison[n_box]
-        if (g %in% box_prison_new){
-          success_all = success_all + 1
-        }
-      }
-    }
-    part_success_all = success_all[1:n]
-    if  (sum(part_success_all) == n){
-      final_success_all[j] = 1
-    }
-  }
-  cat('the survive probability is:')
-  sum(final_success_all)/(nreps)
+Pall <- function(n,strategy,nreps=10000){
+  k <- 1:(2*n)
+  sim(n,k,strategy,nprisoner=2*n)
 }
 
 
 
 # Estimate the individual success probability under n = 5 and n = 50
-print("Individual success probability under the three strategies when n = 5")
-Pone(5,1,1,10000)
-Pone(5,1,2,10000)
-Pone(5,1,3,10000)
+cat("Individual success probability under the three strategies when n = 5\n")
+for (strategy in 1:3) cat(sprintf('strategy %d: %f\n',strategy,Pone(5,1,strategy,10000)))
 
-print("Individual success probability under the three strategies when n = 50")
-Pone(50,1,1,10000)
-Pone(50,1,2,10000)
-Pone(50,1,3,10000)
+cat("Individual success probability under the three strategies when n = 50\n")
+for (strategy in 1:3) cat(sprintf('strategy %d: %f\n',strategy,Pone(50,1,strategy,10000)))
 
 # Estimate the joint success probability under n = 5 and n = 50
-print("Joint success probability under the three strategies when n = 5")
-Pall(5,1,10000)
-Pall(5,2,10000)
-Pall(5,3,10000)
+cat("Joint success probability under the three strategies when n = 5\n")
+for (strategy in 1:3) cat(sprintf('strategy %d: %f\n',strategy,Pall(5,strategy,10000)))
 
-print("Joint success probability under the three strategies when n = 50")
-Pall(50,1,10000)
-Pall(50,2,10000)
-Pall(50,3,10000)
+cat("Joint success probability under the three strategies when n = 50\n")
+for (strategy in 1:3) cat(sprintf('strategy %d: %f\n',strategy,Pall(50,strategy,10000)))
+
 
 #XXXXXXXXXXXXXXXXXXXXXXXXXXXX comments XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 # For one prisoner
