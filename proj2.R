@@ -118,7 +118,7 @@ for (strategy in 1:3) cat(sprintf('strategy %d: %f\n',strategy,Pall(50,strategy,
 # but strategy 2 (prob = 0.4) will have a lower probability of success than strategies 1 & 3 (prob = 0.5).
 # Speculation: If strategy 1 is chosen, then the number k can be guaranteed to be in the loop.
 # So the prisoner's success depends only on the depth of the loop (Only if depth <= n can be succeed)
-# However, in strategy 2, the prisoner cannot guarantee that his number is in the loop
+# However, in strategy 2, the prisoner cannot guarantee that his number is in the loop, so the success probability would lower.
 
 # For 2*n prisoners
 # As the number of prisoners increases,
