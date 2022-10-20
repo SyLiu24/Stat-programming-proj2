@@ -40,6 +40,7 @@ sim <- function(n,k,strategy,nprisoner=1,nreps=10000){
   # Run nreps simulations
   for (irep in 1:nreps) {
     cards <- sample(2*n)
+    # Elements of flag is whether the prisoner succeeds: TRUE if succeeds.
     flag <- array(FALSE,nprisoner)
     
     # Check if each prisoner succeeds
@@ -133,9 +134,9 @@ dloop <- function(n,nreps=10000){
   for (irep in 1:nreps){
     # ramdom shuffle of cards
     shuffle <- sample(2*n)
-    # elements of loop_check are whether each loop length ocurrs in shuffle
+    # elements of loop_check are whether each loop length ocurrs in shuffle: 1 if occurrs
     loop_check <- array(0,2*n)
-    # elements of unchecked_list are whether indices of shuffle have been searched for loop
+    # elements of unchecked_list are whether indices of shuffle haven't been searched for loop: TRUE if not searched
     unchecked_list <- array(TRUE,2*n)
     
     # search all loops until all the elements in shuffle have been searched
@@ -163,7 +164,7 @@ dloop <- function(n,nreps=10000){
 
 # Assess the probability of loop
 y <- dloop(50)
-# The probability of each loop length from 1 to 2n occuring at least once.
+# The probability of each loop length from 1 to 2n occurring at least once.
 cat('The probability of each loop length is\n',(y[1,]),'\n')
 # the probability that there is no loop longer than 50 is roughly 0.31
 cat('Probability of longest loop length being 50 is',sum(y[2,1:50]))
