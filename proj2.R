@@ -39,7 +39,7 @@ sim <- function(n,k,strategy,nprisoner=1,nreps=10000){
   #                 nprisoner - number of prisoners; nreps - number of simulations
   # returns the estimate probability
   
-  # the total numer of success in nreps simulations
+  # the total number of success in nreps simulations
   success <- 0
   
   for (irep in 1:nreps) {
@@ -179,9 +179,10 @@ dloop <- function(n,nreps=10000){
 # Assess the probability of loop
 y <- dloop(50)
 # The probability of each loop length from 1 to 2n occurring at least once.
-y[1,]
+cat('\nThe probability distribution of loop length is\n')
+print(y[1,])
 # the probability that there is no loop longer than 50 is roughly 0.31
-sum(y[2,1:50])
+cat('The probability distribution of longest loop length is',sum(y[2,1:50]))
 
 
 #Visualising the probability
