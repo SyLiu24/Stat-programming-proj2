@@ -182,7 +182,7 @@ y <- dloop(50)
 cat('\nThe probability distribution of loop length is\n')
 print(y[1,])
 # the probability that there is no loop longer than 50 is roughly 0.31
-cat('The probability distribution of longest loop length is',sum(y[2,1:50]))
+cat('\nThe probability of longest loop length being 50 is',sum(y[2,1:50]))
 
 
 #Visualising the probability
